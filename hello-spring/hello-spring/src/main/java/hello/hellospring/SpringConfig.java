@@ -10,25 +10,35 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
-    private EntityManager em;
-    private final DataSource dataSource;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public SpringConfig(EntityManager em,DataSource dataSource) {
-        this.em = em;
-        this.dataSource = dataSource;
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
+
+//    private EntityManager em;
+//    private final DataSource dataSource;
+//
+//    @Autowired
+//    public SpringConfig(EntityManager em,DataSource dataSource) {
+//        this.em = em;
+//        this.dataSource = dataSource;
+//    }
+
+
 
 
     @Bean public MemberService memberService() {
-        return new MemberService(memberRepository());
+//        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memberRepository() {
-//        return new MemoryMemberRepository();
-//        return new JdbcMemberRepository(dataSource);
-//        return new JdbcTempleteMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+//    @Bean
+//    public MemberRepository memberRepository() {
+////        return new MemoryMemberRepository();
+////        return new JdbcMemberRepository(dataSource);
+////        return new JdbcTempleteMemberRepository(dataSource);
+//        return new JpaMemberRepository(em);
+//    }
 }
