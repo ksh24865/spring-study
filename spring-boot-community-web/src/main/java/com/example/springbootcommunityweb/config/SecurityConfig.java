@@ -47,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     //요청 패턴 설정 및 누구나 접근허용
                     .antMatchers("/","/login/**","/css/**","imeges/**","/js/**","/console/**").permitAll()
+                    .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
+                    .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
+                    .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
                     // 설정한 요청 이외의 리퀘스트 요청 허용, 인증된 사용자만 요청가능
                     .anyRequest().authenticated()
                 .and()
