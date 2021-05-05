@@ -5,19 +5,35 @@ import com.example.springbootcommunityweb.domain.User;
 import com.example.springbootcommunityweb.domain.enums.BoardType;
 import com.example.springbootcommunityweb.repository.BoardRepository;
 import com.example.springbootcommunityweb.repository.UserRepository;
+import com.example.springbootcommunityweb.resolver.UserArgumentResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
-public class SpringBootCommunityWebApplication {
+public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootCommunityWebApplication.class, args);
+	}
+
+
+	@Autowired
+	//UserArgumentResolver 클래스 사용 위해 WebMvcConfigurerAdapter 상속 후 오버라이드
+	private UserArgumentResolver userArgumentResolver;
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
+		argumentResolvers.add(userArgumentResolver);
 	}
 
 	@Bean //빈으로 생성된 메서드에 파라미터로 의존성 주입 가능
