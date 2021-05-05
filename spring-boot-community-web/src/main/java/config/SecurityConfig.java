@@ -2,6 +2,7 @@ package config;
 
 import com.example.springbootcommunityweb.domain.enums.SocialType;
 import com.example.springbootcommunityweb.oauth.ClientResources;
+import com.example.springbootcommunityweb.oauth.UserTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -106,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oAuth2ClientContext);
         filter.setRestTemplate(template);
         //User의 권한을 최적화 해서 생성, OAuth2 AccessToken 검증을 위해 생성한  UserTokenServices를 필터의 토큰 서비스로 등록
-        filter.setTokenServices(new UserTokenServices(client, socialType));
+        filter.setTokenServices(new UserTokenService(client, socialType));
         //인증이 성공할 경우
         filter.setAuthenticationSuccessHandler(((request, response, authentication) ->
                 response.sendRedirect("/" + socialType.getValue() + "/complete")));
