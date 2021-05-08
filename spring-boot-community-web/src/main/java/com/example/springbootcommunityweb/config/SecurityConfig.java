@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //인증 메커니즘을, 요청한 HttpServletRequest 기반으로 설정
                 .authorizeRequests()
                     //요청 패턴 설정 및 누구나 접근허용
-                    .antMatchers("/","/login/**","/css/**","imeges/**","/js/**","/console/**").permitAll()
+                    .antMatchers("/","/login/**","/css/**","images/**","/js/**","/console/**").permitAll()
                     .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
                     .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
                     .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
