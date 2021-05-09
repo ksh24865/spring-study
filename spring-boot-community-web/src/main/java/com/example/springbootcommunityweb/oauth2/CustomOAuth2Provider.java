@@ -6,9 +6,9 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 public enum CustomOAuth2Provider {
 
-    KAKAO{
+    KAKAO {
         @Override
-        public ClientRegistration.Builder getBuilder(String registrationId){
+        public ClientRegistration.Builder getBuilder(String registrationId) {
             ClientRegistration.Builder builder = getBuilder(registrationId,
                     ClientAuthenticationMethod.POST, DEFAULT_LOGIN_REDIRECT_URL);
             builder.scope("profile");
@@ -19,6 +19,7 @@ public enum CustomOAuth2Provider {
             builder.clientName("Kakao");
             return builder;
         }
+    };
 
         public static final String DEFAULT_LOGIN_REDIRECT_URL =
                 "{baseUrl}/login/oauth2/code/{registrationId}";
