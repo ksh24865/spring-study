@@ -54,4 +54,6 @@ public class Board {
         this.updatedDate = updatedDate;
         this.user = user;
     }
+
+
 }

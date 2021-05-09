@@ -1,7 +1,6 @@
 package com.example.springbootcommunityweb.service;
 
 import com.example.springbootcommunityweb.domain.Board;
-import com.example.springbootcommunityweb.domain.enums.BoardType;
 import com.example.springbootcommunityweb.repository.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +25,7 @@ public class BoardService {
                 pageable.getPageNumber() -1, pageable.getPageSize());
         return boardRepository.findAll(pageable);
     }
-    public Board findBoardByIdx(Long idx){
+    public Board findBoardByIdx(Long idx) {
         return boardRepository.findById(idx).orElse(new Board());
     }
 }

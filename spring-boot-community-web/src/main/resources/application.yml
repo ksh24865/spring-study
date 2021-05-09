@@ -3,20 +3,30 @@ server:
 spring:
   thymeleaf:
     cache: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+  h2:
+    console:
+      enabled: true
+      path: /console
+  devtools:
+    livereload:
+      enabled: true
   security:
     oauth2:
       client:
-        registratuon:
+        registration:
           google:
-            client-id:
-            client-secret:
+            client-id: 434312685058-nhaili5ul2aplhc1u9u5985hvdtnubva.apps.googleusercontent.com
+            client-secret: Y0irvYTgmOfBnZc4dLaW_VBC
           facebook:
-            client-id:
-            client-secret:
+            client-id: 793640824605119
+            client-secret: 7c94b14fc4bb5916bcb284aabaf75a97
 custom:
   oauth2:
     kakao:
-      client-id:
+      client-id: a68841ed5a6f8360629cabb5e7aea580
 
 #facebook:
 #  client:

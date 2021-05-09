@@ -1,13 +1,10 @@
 package com.example.springbootcommunityweb.config;
 
-import com.example.springbootcommunityweb.domain.enums.SocialType;
-
 import com.example.springbootcommunityweb.oauth2.CustomOAuth2Provider;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,18 +15,16 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.CompositeFilter;
 
-import javax.servlet.Filter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.example.springbootcommunityweb.domain.enums.SocialType.*;
+import static com.example.springbootcommunityweb.domain.enums.SocialType.FACEBOOK;
+import static com.example.springbootcommunityweb.domain.enums.SocialType.GOOGLE;
+import static com.example.springbootcommunityweb.domain.enums.SocialType.KAKAO;
 
 @Configuration
 // 웹에서 시큐리티 기능을 사용하겠다는 어노테이션
@@ -45,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //인증 메커니즘을, 요청한 HttpServletRequest 기반으로 설정
                 .authorizeRequests()
                     //요청 패턴 설정 및 누구나 접근허용
-                    .antMatchers("/","/oauth2/**","/login/**","/css/**","images/**","/js/**","/console/**").permitAll()
+                    .antMatchers("/","/oauth2/**","/login/**","/css/**","/images/**","/js/**","/console/**").permitAll()
                     .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
                     .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
                     .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
@@ -66,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     //로그인 설정
                     .formLogin()
-                    //로그인 성공 시 설정 경로로 이동 
+                    //로그인 성공 시 설정 경로로 이동
                     .successForwardUrl("/board/list")
                 .and()
                     //로그아웃 설정
@@ -109,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    private Object getRegistration(OAuth2ClientProperties clientProperties, String client) {
+    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client) {
         if ("google".equals(client)){
             OAuth2ClientProperties.Registration registration =
                     clientProperties.getRegistration().get("google");

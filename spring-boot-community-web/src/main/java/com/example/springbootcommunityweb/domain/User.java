@@ -53,4 +53,36 @@ public class User implements Serializable {
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
+
+    public Long getIdx() {
+        return idx;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public SocialType getSocialType() {
+        return socialType;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
 }
