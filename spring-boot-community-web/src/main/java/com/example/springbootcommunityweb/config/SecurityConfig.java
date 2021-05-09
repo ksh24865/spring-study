@@ -2,6 +2,7 @@ package com.example.springbootcommunityweb.config;
 
 import com.example.springbootcommunityweb.domain.enums.SocialType;
 
+import com.example.springbootcommunityweb.oauth2.CustomOAuth2Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -12,8 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -83,19 +86,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    // OAuth2ClientProperties와 CustomOAuth2Provider에서 설정했던 카카오 클라이언트 ID를 불러옴
+    // @Configuration으로 등록되어 있는 클래스에서 @Bean으로 등록된 메서드의 파라미터로 지정된 객체들은 오토와이어 가능
+    // oAuth2ClientProperties에는 페북과구글, @Value~~에는 카카오 수동으로 가져옴
     public ClientRegistrationRepository clientRegistrationRepository(
             OAuth2ClientProperties oAuth2ClientProperties, @Value(
             "${custom.oauth2.kakao.client-id}") String kakaoClientId) {
         List<ClientRegistration> registrations = oAuth2ClientProperties
                 .getRegistration().keySet().stream()
+                // getRegistration이용해 구글과 페북 인증정보 빌드업
                 .map(client -> getRegistration(oAuth2ClientProperties, client))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
+        registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
+                .clientId(kakaoClientId)
+                .clientSecret("test")
+                .jwkSetUri("test")
+                .build());
+        return new InMemoryClientRegistrationRepository(registrations);
+
 
     }
 
-    private Object getRegistration(OAuth2ClientProperties oAuth2ClientProperties, String client) {
+    private Object getRegistration(OAuth2ClientProperties clientProperties, String client) {
+        if ("google".equals(client)){
+            OAuth2ClientProperties.Registration registration =
+                    clientProperties.getRegistration().get("google");
+            return CommonOAuth2Provider.GOOGLE.getBuilder(client)
+                    .clientId(registration.getClientId())
+                    .clientSecret(registration.getClientSecret())
+                    .scope("email","profile")
+                    .build();
+        }
+        if ("facebook".equals(client)){
+            OAuth2ClientProperties.Registration registration =
+                    clientProperties.getRegistration().get("facebook");
+            return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
+                    .clientId(registration.getClientId())
+                    .clientSecret(registration.getClientSecret())
+                    //페북의 그래프 API의 scope는 필요한 필드를 반환 안해줘서 직접 파라미터 넣어 요청
+                    .userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
+                    .scope("email")
+                    .build();
+        }
+        return null;
     }
 
 
