@@ -30,7 +30,7 @@ subprojects {
         // jackson-datatype-jsr310 통해 LocalDateTime도 JSON형식 가능
         compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
         compile('org.springframework.data:spring-data-rest-hal-browser')
-
+        compile('junit:junit:4.13.1')
         runtime('org.springframework.boot:spring-boot-devtools')
         runtime('mysql:mysql-connector-java')
         runtime('com.h2database:h2')

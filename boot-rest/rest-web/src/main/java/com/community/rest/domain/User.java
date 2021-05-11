@@ -1,6 +1,7 @@
 package com.community.rest.domain;
 
-import com.example.springbootcommunityweb.domain.enums.SocialType;
+
+import com.community.rest.domain.enums.SocialType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

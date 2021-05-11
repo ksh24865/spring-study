@@ -1,0 +1,16 @@
+com/community/rest/repository/BoardRepository.java
+ com.community.rest.repository.BoardRepository
+com/community/rest/domain/enums/SocialType.java
+ com.community.rest.domain.enums.SocialType
+com/community/rest/controller/BoardRestController.java
+ com.community.rest.controller.BoardRestController
+com/community/rest/repository/UserRepository.java
+ com.community.rest.repository.UserRepository
+com/community/rest/BootRestApplication.java
+ com.community.rest.BootRestApplication
+com/community/rest/domain/enums/BoardType.java
+ com.community.rest.domain.enums.BoardType
+com/community/rest/domain/User.java
+ com.community.rest.domain.User
+com/community/rest/domain/Board.java
+ com.community.rest.domain.Board
