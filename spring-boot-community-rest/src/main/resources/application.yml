@@ -8,6 +8,11 @@ spring:
 #    username: root
 #    password: 1q2w3e4r
 #    driver-class-name: com.mysql.jdbc.Driver
+  data:
+    rest:
+      base-path: /api
+      default-page-size: 10
+      max-page-size: 10
   jpa:
     hibernate:
       ddl-auto: create

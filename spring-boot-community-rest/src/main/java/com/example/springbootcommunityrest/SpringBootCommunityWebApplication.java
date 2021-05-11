@@ -56,6 +56,15 @@ public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 							.user(user)
 							.build())
 					);
+			boardRepository.save(Board.builder()
+					.title("게시글"+201)
+					.subTitle("순서"+201)
+					.content("콘텐츠")
+					.boardType(BoardType.notice)
+					.createdDate(LocalDateTime.now())
+					.updatedDate(LocalDateTime.now())
+					.user(user)
+					.build());
 		};
 	}
 

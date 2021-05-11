@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.PagedModel;
+
 import org.springframework.hateoas.PagedModel.PageMetadata;
 
 
@@ -21,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/boards")
 public class BoardRestController {
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
     //의존성 주입
     public BoardRestController(BoardRepository boardRepository) {
@@ -46,17 +47,19 @@ public class BoardRestController {
         //Board 마다 상세 정보를 불러올 수 있는 링크 추가
         resources.add(linkTo(methodOn(BoardRestController.class).
                 getBoards(pageable)).withSelfRel());
+        System.out.println("!!!!GET!!!!");
         return ResponseEntity.ok(resources);
     }
 
     @PostMapping
-    public ResponseEntity<?> postBorard(@RequestBody Board board){
+    public ResponseEntity<?> postBoard(@RequestBody Board board){
         board.setCreatedDateNow();
         boardRepository.save(board);
+        System.out.println("!!!!POST!!!!"+board.getTitle());
         return new ResponseEntity<>("{}", HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("{idx}")
     public ResponseEntity<?> putBoard(@PathVariable("idx")Long idx, @RequestBody Board board) {
         Board persistBoard = boardRepository.getOne(idx);
         persistBoard.update(board);
@@ -64,7 +67,7 @@ public class BoardRestController {
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{idx}")
     public ResponseEntity<?> deleteBoard(@PathVariable("idx")Long idx){
         boardRepository.deleteById(idx);
         return new ResponseEntity<>("{}", HttpStatus.OK);

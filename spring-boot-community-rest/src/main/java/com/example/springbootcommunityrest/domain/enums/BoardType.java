@@ -2,7 +2,7 @@ package com.example.springbootcommunityrest.domain.enums;
 
 public enum BoardType {
 
-//    noitce("공지사항"),
+    notice("공지사항"),
     free("자유게시판");
 
     private String value;
