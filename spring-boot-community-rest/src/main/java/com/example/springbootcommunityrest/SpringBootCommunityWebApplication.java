@@ -3,6 +3,7 @@ package com.example.springbootcommunityrest;
 import com.example.springbootcommunityrest.domain.Board;
 import com.example.springbootcommunityrest.domain.User;
 import com.example.springbootcommunityrest.domain.enums.BoardType;
+import com.example.springbootcommunityrest.event.BoardEventHandler;
 import com.example.springbootcommunityrest.repository.BoardRepository;
 import com.example.springbootcommunityrest.repository.UserRepository;
 import com.example.springbootcommunityrest.resolver.UserArgumentResolver;
@@ -33,26 +34,7 @@ public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 		SpringApplication.run(SpringBootCommunityWebApplication.class, args);
 	}
 
-	@Configuration
-	@EnableGlobalMethodSecurity
-	@EnableWebSecurity
-	static class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
-		@Bean
-		InMemoryUserDetailsManager userDetailsManager(){
-			org.springframework.security.core.userdetails.User.UserBuilder commonUser =
-					org.springframework.security.core.userdetails.User
-					.withUsername("commonUser").password("{noop}common").roles("USER");
-			org.springframework.security.core.userdetails.User.UserBuilder havi =
-					org.springframework.security.core.userdetails.User
-					.withUsername("havi").password("{noop}test").roles("USER","ADMIN");
-			List<UserDetails> userDetailsList = new ArrayList<>();
-			userDetailsList.add(commonUser.build());
-			userDetailsList.add(havi.build());
-			return new InMemoryUserDetailsManager(userDetailsList);
-
-		}
-	}
 
 
 	@Autowired
@@ -62,6 +44,11 @@ public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
 		argumentResolvers.add(userArgumentResolver);
+	}
+
+	@Bean
+	BoardEventHandler boardEventHandler(){
+		return new BoardEventHandler();
 	}
 
 	@Bean //빈으로 생성된 메서드에 파라미터로 의존성 주입 가능
@@ -97,4 +84,27 @@ public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 		};
 	}
 
+//	@Configuration
+//	@EnableGlobalMethodSecurity
+//	@EnableWebSecurity
+//	static class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+//
+//		@Bean
+//		InMemoryUserDetailsManager userDetailsManager(){
+//
+//			//일반User 생성
+//			org.springframework.security.core.userdetails.User.UserBuilder commonUser =
+//					org.springframework.security.core.userdetails.User
+//							.withUsername("commonUser").password("{noop}common").roles("USER");
+//			//ADMIN User 생성 , password의 {~}은 암호화 방식 지정 없을 시 noop
+//			org.springframework.security.core.userdetails.User.UserBuilder havi =
+//					org.springframework.security.core.userdetails.User
+//							.withUsername("havi").password("{noop}test").roles("USER","ADMIN");
+//			List<UserDetails> userDetailsList = new ArrayList<>();
+//			userDetailsList.add(commonUser.build());
+//			userDetailsList.add(havi.build());
+//			return new InMemoryUserDetailsManager(userDetailsList);
+//
+//		}
+//	}
 }
