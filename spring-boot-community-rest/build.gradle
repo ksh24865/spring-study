@@ -27,7 +27,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-
+//	implementation 'org.springframework.data:spring-data-rest-hal-browser'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
