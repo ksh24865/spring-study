@@ -11,10 +11,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -23,6 +31,27 @@ public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootCommunityWebApplication.class, args);
+	}
+
+	@Configuration
+	@EnableGlobalMethodSecurity
+	@EnableWebSecurity
+	static class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+
+		@Bean
+		InMemoryUserDetailsManager userDetailsManager(){
+			org.springframework.security.core.userdetails.User.UserBuilder commonUser =
+					org.springframework.security.core.userdetails.User
+					.withUsername("commonUser").password("{noop}common").roles("USER");
+			org.springframework.security.core.userdetails.User.UserBuilder havi =
+					org.springframework.security.core.userdetails.User
+					.withUsername("havi").password("{noop}test").roles("USER","ADMIN");
+			List<UserDetails> userDetailsList = new ArrayList<>();
+			userDetailsList.add(commonUser.build());
+			userDetailsList.add(havi.build());
+			return new InMemoryUserDetailsManager(userDetailsList);
+
+		}
 	}
 
 
