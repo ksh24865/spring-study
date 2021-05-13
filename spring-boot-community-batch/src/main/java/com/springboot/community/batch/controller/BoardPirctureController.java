@@ -16,41 +16,26 @@ import java.io.IOException;
 import java.util.List;
 @RestController
 public class BoardPirctureController {
-//    MultipartHttpServletRequest multipartHttpServletRequest
+    //    MultipartHttpServletRequest multipartHttpServletRequest
+//    public final int num = 0;
+
     @PostMapping("/board/list")
-    public String createBoard(@RequestBody MultiValueMap<String, String> imagedata){
-//    public String createBoard(@RequestBody MultipartHttpServletRequest imagedata){
-        List<String> data = imagedata.get("imagedata");
-        String data2 = data.get(0);
-        data2=data2.replace("data:image/png;base64,","").replace(' ','+');
-        byte[] imageBytes = DatatypeConverter.parseBase64Binary(data2);
-
-//        System.out.println("!!!!!"+data2+"!!!!!!!");
+    public String createBoard(@RequestBody MultiValueMap<String, String> imagedata) {
+        String data = imagedata.get("imagedata").get(0);
+        data = data.replace("data:image/png;base64,", "").replace(' ', '+');
+        byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
+        int num = 0;
         try {
-            System.out.println("h");
             BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
-
-            ImageIO.write(bufImg, "jpg", new File("k.jpg"));
+            ImageIO.write(bufImg, "png", new File("C:/Users/seongho/Desktop/spring/img/image"+num+".png"));
+            num++;
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
-            return "bye, faker";
+            return "fail";
         }
-        return "hi, faker";
+        return "success";
     }
-//    a= a.replace("대한", "민국");
-//    str_replace(' ','+',str_replace('data:image/png;base64,','',$_POST["imagedata"]));
-////                MultipartHttpServletRequest multipartHttpServletRequest
-//        ) throws Exception {
-//            Board board = boardService.addBoard(Board.builder()
-//                    .user(user)
-//                    .content(content)
-//                    .build(), files);
-//
-//            URI uriLocation = new URI("/board/" + board.getID());
-//            return ResponseEntity.created(uriLocation).body("{}");
-//        }
-
 }
