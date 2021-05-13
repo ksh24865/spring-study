@@ -1,5 +1,6 @@
 package com.springboot.community.batch.controller;
 
+import com.springboot.community.batch.service.BoardPictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -15,25 +16,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 @RestController
-public class BoardPirctureController {
+public class BoardPictureController {
     //    MultipartHttpServletRequest multipartHttpServletRequest
 //    public final int num = 0;
+    @Autowired
+    BoardPictureService boardPictureService;
 
     @PostMapping("/board/list")
     public String createBoard(@RequestBody MultiValueMap<String, String> imagedata) {
         String data = imagedata.get("imagedata").get(0);
-        data = data.replace("data:image/png;base64,", "").replace(' ', '+');
-        byte[] imageBytes = DatatypeConverter.parseBase64Binary(data);
-        int num = 0;
-        try {
-            BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
-            ImageIO.write(bufImg, "png", new File("C:/Users/seongho/Desktop/spring/img/image"+num+".png"));
-            num++;
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-
+        if (!boardPictureService.SaveImageToServer(data)) {
             return "fail";
         }
         return "success";
