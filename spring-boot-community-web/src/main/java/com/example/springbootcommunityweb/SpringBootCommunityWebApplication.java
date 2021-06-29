@@ -15,6 +15,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -23,6 +25,13 @@ import java.util.stream.IntStream;
 public class SpringBootCommunityWebApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
+
+
+		URL url = new URL(targetUrl);
+		HttpsURLConnection con = (HttpsURLConnection) url.openConnection(); con.setRequestMethod("POST"); // HTTP POST 메소드 설정
+		con.setRequestProperty("User-Agent", USER_AGENT); con.setDoOutput(true); // POST 파라미터 전달을 위한 설정
+		// Send post request DataOutputStream wr = new DataOutputStream(con.getOutputStream()); wr.writeBytes(parameters); wr.flush(); wr.close(); int responseCode = con.getResponseCode(); BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream())); String inputLine; StringBuffer response = new StringBuffer(); while ((inputLine = in.readLine()) != null) { response.append(inputLine); } in.close(); // print result System.out.println("HTTP 응답 코드 : " + responseCode); System.out.println("HTTP body : " + response.toString()); }
+
 		SpringApplication.run(SpringBootCommunityWebApplication.class, args);
 	}
 
