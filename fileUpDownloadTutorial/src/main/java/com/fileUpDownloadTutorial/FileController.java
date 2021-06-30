@@ -13,8 +13,8 @@ public class FileController {
     @PostMapping("/single")
     public String uploadSingle(@RequestParam("files") MultipartFile file) throws Exception {
         String rootPath = FileSystemView.getFileSystemView().getHomeDirectory().toString();
-        String basePath = rootPath + "/" + "single";
-        String filePath = basePath + "/" + file.getOriginalFilename();
+        String basePath = rootPath + "/" ;
+        String filePath = basePath + "/src/" + file.getOriginalFilename();
         File dest = new File(filePath);
         file.transferTo(dest); // 파일 업로드 작업 수행
         return "uploaded";
