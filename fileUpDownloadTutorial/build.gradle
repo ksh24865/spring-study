@@ -29,6 +29,14 @@ dependencies {
 
 }
 
+
+bootJar{
+	archivesBaseName = 'test_pack'
+	archiveFileName = 'test_pack.jar'
+	archiveVersion = "0.0.1"
+}
+
+
 test {
 	useJUnitPlatform()
 }
