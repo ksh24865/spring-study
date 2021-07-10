@@ -1,12 +1,12 @@
 package com.fileUpDownloadTutorial;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import javax.swing.filechooser.FileSystemView;
-import java.io.File;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.web.bind.annotation.GetMapping;
+        import org.springframework.web.bind.annotation.PostMapping;
+        import org.springframework.web.bind.annotation.RequestParam;
+        import org.springframework.web.multipart.MultipartFile;
+        import javax.swing.filechooser.FileSystemView;
+        import java.io.File;
 
 @Controller
 public class FileController {
