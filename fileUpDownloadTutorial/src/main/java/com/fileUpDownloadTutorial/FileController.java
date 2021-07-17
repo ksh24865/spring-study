@@ -23,8 +23,8 @@ public class FileController {
     public String single(){
         return "single";
     }
-    @GetMapping("/")
-    public String single2(){
-        return "single";
-    }
+//    @GetMapping("/")
+//    public String single2(){
+//        return "single";
+//    }
 }

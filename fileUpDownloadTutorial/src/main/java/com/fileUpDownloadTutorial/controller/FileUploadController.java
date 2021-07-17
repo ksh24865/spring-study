@@ -2,6 +2,8 @@ package com.fileUpDownloadTutorial.controller;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import com.fileUpDownloadTutorial.service.StorageFileNotFoundException;
+import com.fileUpDownloadTutorial.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.example.uploadingfiles.storage.StorageFileNotFoundException;
-import com.example.uploadingfiles.storage.StorageService;
 
 @Controller
 public class FileUploadController {
@@ -60,6 +59,7 @@ public class FileUploadController {
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         return "redirect:/";
+//        return "uploaded";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
