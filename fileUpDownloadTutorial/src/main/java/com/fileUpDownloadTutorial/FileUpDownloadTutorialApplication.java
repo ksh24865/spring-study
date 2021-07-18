@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 //@SpringBootApplication
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class})
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableConfigurationProperties(StorageProperties.class)
 public class FileUpDownloadTutorialApplication {
 	// https://spring.io/guides/gs/uploading-files/

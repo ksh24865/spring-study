@@ -40,7 +40,6 @@ public class User implements Serializable {
     private LocalDateTime updatedDate;
 
     @Builder
-
     public User(String name, String password, String email, String principal, SocialType socialType, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.name = name;
         this.password = password;

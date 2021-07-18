@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,14 +30,18 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file, String filename) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
+//            Path destinationFile = this.rootLocation.resolve(
+//                    Paths.get(file.getOriginalFilename()))
+//                    .normalize().toAbsolutePath();
             Path destinationFile = this.rootLocation.resolve(
-                    Paths.get(file.getOriginalFilename()))
-                    .normalize().toAbsolutePath(); // 이미지 이름 username_01.jpg 이런 식으로 변경할 듯?
+                    // 인자로 받은 파일이름 + 원래 파일 확장자
+                    filename+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")))
+                    .normalize().toAbsolutePath(); //이미지 이름 username_01.jpg 이런 식으로 변경할 듯?
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(

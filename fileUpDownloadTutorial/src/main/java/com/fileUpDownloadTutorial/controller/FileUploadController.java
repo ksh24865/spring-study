@@ -1,7 +1,10 @@
 package com.fileUpDownloadTutorial.controller;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import com.fileUpDownloadTutorial.domain.Image;
+import com.fileUpDownloadTutorial.service.ImageService;
 import com.fileUpDownloadTutorial.service.StorageFileNotFoundException;
 import com.fileUpDownloadTutorial.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +27,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final ImageService imageService;
+
+    private Long userNum;
+    private Long imgNum;
+
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, ImageService imageService) {
         this.storageService = storageService;
+        this.imageService = imageService;
+        this.userNum = Long.valueOf(1);
+        this.imgNum = Long.valueOf(1);
     }
 
     @GetMapping("/")
@@ -53,8 +64,14 @@ public class FileUploadController {
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
-        storageService.store(file);
+        Image img = Image.builder()
+                .name(Long.toString(userNum)+"_"+Long.toString(imgNum++))
+                .user_id(userNum)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+        imageService.add(img);
+        storageService.store(file,img.getName());
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
